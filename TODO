@@ -1,0 +1,7 @@
+the following parts of the install did not work perfectly:
+
+
+XX1. need to update layout.yaml
+2. jenkins plugins were not loaded correctly :(
+XX3. zuul private key should be in /home/zuul/.ssh/id_rsa
+4. merge stuff was not running correctly
