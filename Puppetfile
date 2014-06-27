@@ -1,3 +1,9 @@
+#
+# this a namespace bug that needs to be fixed
+#
+mod 'bodepd/puppet_openstack_tester',
+  :git => 'https://github.com/bodepd/puppet-openstack_tester'
+
 mod 'openstack-infra/pip',
   :git => 'https://github.com/bodepd/puppet-pip'
 
