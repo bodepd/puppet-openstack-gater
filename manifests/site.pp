@@ -200,9 +200,9 @@ if $::role == 'jenkinsserver' {
     ensure => present,
     source => 'puppet:///modules/puppet_openstack_tester/zuul/merger-logging.conf',
   }
-  class { 'jenkins::slave':
-    ssh_key => hiera('jenkins_public_key'),
-  }
+  #class { 'jenkins::slave':
+  #  ssh_key => hiera('jenkins_public_key'),
+  #}
 
 } elsif $::role == 'jenkinsclient' {
   class { 'jenkins::slave':
