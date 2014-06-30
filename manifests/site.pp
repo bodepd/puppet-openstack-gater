@@ -65,64 +65,64 @@ if $::role == 'jenkinsserver' {
     jenkins_ssh_public_key  => hiera('jenkins_public_key'),
   }
 
-  jenkins::plugin { 'build-timeout':
-    version => '1.13',
-  }
-  jenkins::plugin { 'copyartifact':
-    version => '1.22',
-  }
-  jenkins::plugin { 'dashboard-view':
-    version => '2.3',
-  }
-  jenkins::plugin { 'envinject':
-    version => '1.70',
-  }
+  #jenkins::plugin { 'build-timeout':
+  #  version => '1.13',
+  #}
+  #jenkins::plugin { 'copyartifact':
+  #  version => '1.22',
+  #}
+  #jenkins::plugin { 'dashboard-view':
+  #  version => '2.3',
+  #}
+  #jenkins::plugin { 'envinject':
+  #  version => '1.70',
+  #}
   jenkins::plugin { 'gearman-plugin':
     version => '0.0.3',
   }
   jenkins::plugin { 'git':
     version => '1.1.23',
   }
-  jenkins::plugin { 'greenballs':
-    version => '1.12',
-  }
+  #jenkins::plugin { 'greenballs':
+  #  version => '1.12',
+  #}
   jenkins::plugin { 'htmlpublisher':
     version => '1.0',
   }
-  jenkins::plugin { 'extended-read-permission':
-    version => '1.0',
-  }
-  jenkins::plugin { 'postbuild-task':
-    version => '1.8',
-  }
-  jenkins::plugin { 'zmq-event-publisher':
-    version => '0.0.3',
-  }
+  #jenkins::plugin { 'extended-read-permission':
+  #  version => '1.0',
+  #}
+  #jenkins::plugin { 'postbuild-task':
+  #  version => '1.8',
+  #}
+  #jenkins::plugin { 'zmq-event-publisher':
+  #  version => '0.0.3',
+  #}
 #  TODO(jeblair): release
 #  jenkins::plugin { 'scp':
 #    version => '1.9',
 #  }
-  jenkins::plugin { 'violations':
-    version => '0.7.11',
-  }
+  #jenkins::plugin { 'violations':
+  #  version => '0.7.11',
+  #}
   jenkins::plugin { 'jobConfigHistory':
     version => '1.13',
   }
-  jenkins::plugin { 'monitoring':
-    version => '1.40.0',
-  }
-  jenkins::plugin { 'nodelabelparameter':
-    version => '1.2.1',
-  }
+  #jenkins::plugin { 'monitoring':
+  #  version => '1.40.0',
+  #}
+  #jenkins::plugin { 'nodelabelparameter':
+  #  version => '1.2.1',
+  #}
   jenkins::plugin { 'notification':
     version => '1.4',
   }
   jenkins::plugin { 'openid':
     version => '1.5',
   }
-  jenkins::plugin { 'parameterized-trigger':
-    version => '2.15',
-  }
+  #jenkins::plugin { 'parameterized-trigger':
+  #  version => '2.15',
+  #}
   jenkins::plugin { 'publish-over-ftp':
     version => '1.7',
   }
@@ -138,9 +138,9 @@ if $::role == 'jenkinsserver' {
   jenkins::plugin { 'token-macro':
     version => '1.5.1',
   }
-  jenkins::plugin { 'url-change-trigger':
-    version => '1.2',
-  }
+  #jenkins::plugin { 'url-change-trigger':
+  #  version => '1.2',
+  #}
   jenkins::plugin { 'urltrigger':
     version => '0.24',
   }
@@ -217,6 +217,7 @@ if $::role == 'jenkinsserver' {
     username  => $jenkins_username,
     password  => $jenkins_password,
     executors => $::processorcount,
+    ssh_user  => 'jenkins',
     ssh_key   => '/var/lib/jenkins/.ssh/id_rsa',
   }
 } else {
