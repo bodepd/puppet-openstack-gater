@@ -1,3 +1,7 @@
+
+$jenkins_username = 'jenkins_user'
+$jenkins_password = 'jenkins_password'
+
 if $::role == 'jenkinsserver' {
 
   include puppet_openstack_tester::puppet_jobs
@@ -147,8 +151,8 @@ if $::role == 'jenkinsserver' {
 
   class { 'jenkins::job_builder':
     url      => 'http://127.0.0.1:8080',
-    username => 'jenkins_user',
-    password => 'jenkins_password',
+    username => $jenkins_user,
+    password => $jenkins_password,
     require  => Package['git']
   }
 
@@ -207,6 +211,13 @@ if $::role == 'jenkinsserver' {
 } elsif $::role == 'jenkinsclient' {
   class { 'jenkins::slave':
     ssh_key => hiera('jenkins_public_key'),
+  }
+  jenkins_agent { $::fqdn:
+    server    => hiera('jenkins_server', 'localhost'),
+    username  => $jenkins_username,
+    password  => $jenkins_password,
+    executors => $::processorcount,
+    ssh_key   => '/var/lib/jenkins/.ssh/id_rsa',
   }
 } else {
   fail("Undefined role: ${::role}")
