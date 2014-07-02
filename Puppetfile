@@ -33,6 +33,9 @@ mod 'puppetlabs/firewall',
 mod 'puppetlabs/vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo'
 
+mod 'bodepd/jenkins_agent',
+  :git => 'https://github.com/bodepd/puppet-jenkins_agent'
+
 #
 # for now, I am going to deploy this without a master
 #

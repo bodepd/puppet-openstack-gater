@@ -212,13 +212,15 @@ if $::role == 'jenkinsserver' {
   class { 'jenkins::slave':
     ssh_key => hiera('jenkins_public_key'),
   }
-  jenkins_agent { $::fqdn:
-    server    => hiera('jenkins_server', 'localhost'),
-    username  => $jenkins_username,
-    password  => $jenkins_password,
-    executors => $::processorcount,
-    ssh_user  => 'jenkins',
-    ssh_key   => '/var/lib/jenkins/.ssh/id_rsa',
+  jenkins_node { $::fqdn:
+    ensure            => present,
+    jenkins_server_ip => hiera('jenkins_server', '127.0.0.1'),
+    jenkins_username  => $jenkins_username,
+    jenkins_password  => $jenkins_password,
+    slave_host        => $::ipaddress_eth1,
+    executors         => $::processorcount,
+    slave_user        => 'jenkins',
+    private_key_file  => '/var/lib/jenkins/.ssh/id_rsa',
   }
 } else {
   fail("Undefined role: ${::role}")
