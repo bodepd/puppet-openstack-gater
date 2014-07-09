@@ -65,6 +65,8 @@ if $::role == 'jenkinsserver' {
     jenkins_ssh_public_key  => hiera('jenkins_public_key'),
   }
 
+  jenkins::plugin { 'swarm': }
+
   #jenkins::plugin { 'build-timeout':
   #  version => '1.13',
   #}
