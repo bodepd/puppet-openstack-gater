@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     :jenkinsclient => '12'
   }.each do |node_name, number|
 
-    config.vm.synced_folder("hiera/", '/etc/hiera/')
+    config.vm.synced_folder("hiera/", '/etc/puppet/hiera/')
 
     # run apt-get update and install pip
     config.vm.provision 'shell', inline:
@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         puppet.manifests_path    = 'manifests'
         puppet.manifest_file     = 'site.pp'
         puppet.module_path       = 'modules'
-        puppet.options           = ['--hiera_config=/etc/hiera/hiera.yaml', '--debug']
+        puppet.options           = ['--hiera_config=/etc/puppet/hiera/hiera.yaml', '--debug']
         puppet.facter            = { 'role' => node_name }
       end
     end
