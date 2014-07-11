@@ -10,8 +10,17 @@ mod 'openstack-infra/pip',
 mod 'openstack-infra/logrotate',
   :git => 'https://github.com/bodepd/puppet-logrotate'
 
-mod 'openstack-infra/jenkins',
-  :git => 'https://github.com/bodepd/puppet-jenkins'
+#mod 'openstack-infra/jenkins',
+#  :git => 'https://github.com/bodepd/puppet-jenkins'
+
+mod 'jenkinsci/jenkins',
+  :git => 'https://github.com/jenkinsci/puppet-jenkins'
+
+mod 'bodepd/jenkins_job_builder',
+  :git => 'https://github.com/bodepd/puppet-jenkins_job_builder'
+
+mod 'puppetlabs/java',
+  :git => 'https://github.com/puppetlabs/puppetlabs-java'
 
 mod 'openstack-infra/zuul',
   :git => 'https://github.com/bodepd/puppet-zuul'
@@ -32,9 +41,6 @@ mod 'puppetlabs/firewall',
 
 mod 'puppetlabs/vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo'
-
-mod 'bodepd/jenkins_agent',
-  :git => 'https://github.com/bodepd/puppet-jenkins_agent'
 
 #
 # for now, I am going to deploy this without a master
