@@ -39,34 +39,11 @@ mod 'puppetlabs/firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
   :ref => 'v0.0.4'
 
-mod 'puppetlabs/vcsrepo',
-  :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo'
+mod 'openstackinfra/vcsrepo',
+  :git =>  'https://github.com/openstack-infra/puppet-vcsrepo'
 
-#
-# for now, I am going to deploy this without a master
-#
-#mod 'puppetlabs/postgresql',
-#  :git => 'https://puppetlabs/puppetlabs-postgresql',
-#  :ref => '2.5.0'
+mod 'stackforge/openstack_extras',
+  :git => 'https://github.com/bodepd/puppet-openstack_extras'
 
-#mod 'puppetlabs/puppetdb',
-#  :git => 'https://github.com/puppetlabs/puppetlabs-puppetdb',
-#  :ref => '2.0.0'
-
-#mod 'stephenjohrnson/puppet',
-#  :git => 'https/github.com/stephenrjohnson/puppetlabs-puppet',
-#  :ref => '0.0.18'
-
-#mod 'stackforge/openstack_extras',
-#  :git => 'https://github.com/bodepd/puppet-openstack_extras'
-#
-#  'apt',
-#  'stdlib',
-#  'inifile',
-#  'apache',
-#  'concat'
-#].each do |module_name|
-#  mod "puppetlabs/#{module_name}",
-#    :git => "https://github.com/puppetlabs/puppetlabs-#{module_name}",
-#    :ref => master
-#end
+mod 'stackforge/heat',
+  :git => 'https://github.com/stackforge/puppet-heat'
