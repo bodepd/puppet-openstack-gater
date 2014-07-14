@@ -175,8 +175,22 @@ if $::role == 'jenkinsserver' {
   }
 
 } elsif $::role == 'jenkinsclient' {
+  package { 'git':
+    ensure => installed,
+  }
   class { 'jenkins::slave':
     masterurl => hiera('jenkins_server', $jenkins_server),
+  }
+  include openstack_extras::repo
+  include heat::client
+  class { 'puppet_openstack_tester::heat_creds':
+    filename              => '/home/jenkins-slave/heat.sh',
+    username              => 'bodepd',
+    password              => hiera('openstack_user_password'),
+    tenant_id             => '914259',
+    heat_endpoint         => 'ord.orchestration.api.rackspacecloud.com',
+    keystone_endpoint     => 'identity.api.rackspacecloud.com',
+    openstack_private_key => hiera('openstack_private_key')
   }
 } else {
   fail("Undefined role: ${::role}")
