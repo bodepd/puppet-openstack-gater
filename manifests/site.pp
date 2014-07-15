@@ -130,7 +130,7 @@ if $::role == 'jenkinsserver' {
     gearman_server       => '127.0.0.1',
     gerrit_server        => 'review.openstack.org',
     # I need to create another user for this so that I don't have to use my own...
-    gerrit_user          => 'puppet-openstack-ci-user',
+    gerrit_user          => hiera('gerrit_user', 'puppet-openstack-ci-user'),
     # private key for gerrit user
     zuul_ssh_private_key => hiera('zuul_ssh_private_key'),
     url_pattern          => '',
@@ -185,11 +185,11 @@ if $::role == 'jenkinsserver' {
   include heat::client
   class { 'puppet_openstack_tester::heat_creds':
     filename              => '/home/jenkins-slave/heat.sh',
-    username              => 'bodepd',
+    username              => hiera('openstack_user_name', 'bodepd'),
     password              => hiera('openstack_user_password'),
-    tenant_id             => '914259',
-    heat_endpoint         => 'ord.orchestration.api.rackspacecloud.com',
-    keystone_endpoint     => 'identity.api.rackspacecloud.com',
+    tenant_id             => hiera('openstack_tenant_id', '914259'),
+    heat_endpoint         => hiera('openstack_heat_endpoint', 'ord.orchestration.api.rackspacecloud.com'),
+    keystone_endpoint     => hiera('openstack_keystone_endpoint', 'identity.api.rackspacecloud.com'),
     openstack_private_key => hiera('openstack_private_key')
   }
 } else {
