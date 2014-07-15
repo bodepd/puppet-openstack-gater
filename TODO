@@ -1,7 +1,14 @@
 the following parts of the install did not work perfectly:
 
+### Switch from jenkins to turbo-hipster
 
-XX1. need to update layout.yaml
-2. jenkins plugins were not loaded correctly :(
-XX3. zuul private key should be in /home/zuul/.ssh/id_rsa
-4. merge stuff was not running correctly
+Jenkins is just too darn hard to install and configure
+
+### Consider using a Puppet Master
+
+Masterful vs. Masterless have several pros and cons which still need
+to be weighed
+
+I am mainly leaning towards a master because it provides a single place
+to store secrets (especially things like private keys which would have
+to be signed b
