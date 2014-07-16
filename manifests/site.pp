@@ -6,11 +6,9 @@ $jenkins_server = 'http://11.2.3.11:8080'
 
 if $::role == 'jenkinsserver' {
 
-  include puppet_openstack_tester::puppet_jobs
+  include puppet_openstack_tester::zuul
 
-  #Jenkins::Plugin {
-  #  notify => Service['jenkins'],
-  #}
+  include puppet_openstack_tester::puppet_jobs
 
   Service <| title == 'zuul' |> {
     ensure  => running,
@@ -25,27 +23,6 @@ if $::role == 'jenkinsserver' {
   file { '/etc/jenkins_jobs/config':
     ensure => directory,
     before => Exec['jenkins_jobs_update'],
-  }
-
-  #service { 'jenkins':
-  #  ensure  => running,
-  #  enable  => true,
-  #  start   => '/usr/sbin/service jenkins start;/bin/sleep 120',
-  #  before  => Class['puppet_openstack_tester::puppet_jobs'],
-  #}
-
-  file { '/home/zuul/.ssh':
-    ensure  => directory,
-    owner   => 'zuul',
-    group   => 'zuul',
-  }
-
-  # why do I have to add this and they don't perhaps b/c something was wrong with
-  # the ssh agent on the image that I created?
-  file { '/home/zuul/.ssh/config':
-    owner   => 'zuul',
-    group   => 'zuul',
-    content => "Host review.openstack.org\n  IdentityFile /var/lib/zuul/ssh/id_rsa\n  StrictHostKeyChecking no"
   }
 
   jenkins::plugin { 'ansicolor':
@@ -67,21 +44,6 @@ if $::role == 'jenkinsserver' {
     password => $jenkins_password,
     require  => Package['git']
   }
-
-   #class { '::jenkins::master':
-   # # this is very specific to the vagrant environment
-   # vhost_name              => $::ipaddress_eth1,
-   # serveradmin             => 'root@localhost',
-   # logo                    => 'openstack.png',
-   # #ssl_cert_file           => $prv_ssl_cert_file,
-   # #ssl_key_file            => $prv_ssl_key_file,
-   # #ssl_chain_file          => $ssl_chain_file,
-   # #ssl_cert_file_contents  => $ssl_cert_file_contents,
-   # #ssl_key_file_contents   => $ssl_key_file_contents,
-   # #ssl_chain_file_contents => $ssl_chain_file_contents,
-   # jenkins_ssh_private_key => hiera('jenkins_private_key'),
-   # jenkins_ssh_public_key  => hiera('jenkins_public_key'),
-  #}
 
   jenkins::plugin { 'gearman-plugin':
     version => '0.0.3',
@@ -124,7 +86,6 @@ if $::role == 'jenkinsserver' {
     ensure => installed,
   }
 
-
   class { '::zuul':
     vhost_name           => $::ipaddress_eth2,
     gearman_server       => '127.0.0.1',
@@ -142,39 +103,8 @@ if $::role == 'jenkinsserver' {
     #git_name             => 'OpenStack Jenkins',
   }
 
-  class { '::zuul::server': }
-  class { '::zuul::merger': }
-
-  file { '/etc/zuul/layout.yaml':
-    ensure => present,
-    source => 'puppet:///modules/puppet_openstack_tester/zuul/layout.yaml',
-    notify => Exec['zuul-reload'],
-  }
-
-  file { '/etc/zuul/openstack_functions.py':
-    ensure => present,
-    source => 'puppet:///modules/puppet_openstack_tester/zuul/openstack_functions.py',
-    notify => Exec['zuul-reload'],
-  }
-
-  file { '/etc/zuul/logging.conf':
-    ensure => present,
-    source => 'puppet:///modules/puppet_openstack_tester/zuul/logging.conf',
-    notify => Exec['zuul-reload'],
-  }
-
-  file { '/etc/zuul/gearman-logging.conf':
-    ensure => present,
-    source => 'puppet:///modules/puppet_openstack_tester/zuul/gearman-logging.conf',
-    notify => Exec['zuul-reload'],
-  }
-
-  file { '/etc/zuul/merger-logging.conf':
-    ensure => present,
-    source => 'puppet:///modules/puppet_openstack_tester/zuul/merger-logging.conf',
-  }
-
 } elsif $::role == 'jenkinsclient' {
+  # install a jenkins slave configured to launch jobs using heat
   package { 'git':
     ensure => installed,
   }
@@ -184,9 +114,9 @@ if $::role == 'jenkinsserver' {
   include openstack_extras::repo
   include heat::client
   class { 'puppet_openstack_tester::heat_creds':
-    filename              => '/home/jenkins-slave/heat.sh',
     username              => hiera('openstack_user_name', 'bodepd'),
     password              => hiera('openstack_user_password'),
+    local_user            => 'jenkins-slave',
     tenant_id             => hiera('openstack_tenant_id', '914259'),
     heat_endpoint         => hiera('openstack_heat_endpoint', 'ord.orchestration.api.rackspacecloud.com'),
     keystone_endpoint     => hiera('openstack_keystone_endpoint', 'identity.api.rackspacecloud.com'),
