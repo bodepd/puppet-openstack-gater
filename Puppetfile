@@ -4,6 +4,9 @@
 mod 'bodepd/openstack_tester',
   :git => 'https://github.com/bodepd/puppet-openstack_tester'
 
+mod 'bodepd/ci_profiles',
+  :git => 'https://github.com/bodepd/puppet-ci_profiles'
+
 mod 'openstack-infra/pip',
   :git => 'https://github.com/bodepd/puppet-pip'
 
