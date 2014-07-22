@@ -113,7 +113,7 @@ if $::role == 'jenkinsserver' {
   }
   include openstack_extras::repo
   include heat::client
-  class { 'puppet_openstack_tester::heat_creds':
+  class { 'openstack_tester::heat_creds':
     username              => hiera('openstack_user_name', 'bodepd'),
     password              => hiera('openstack_user_password'),
     local_user            => 'jenkins-slave',
