@@ -4,9 +4,16 @@ $jenkins_server = 'http://11.2.3.11:8080'
 
 if $::role == 'jenkinsserver' {
 
+  include openstack_tester::puppet_jobs
+
   include ci_profiles::jenkins
 
   include ci_profiles::zuul
+
+  include jio_pipeline::jobs::acceptance
+  include jio_pipeline::jobs::non_functional
+  include jio_pipeline::jobs::staging
+  include jio_pipeline::jobs::upgrade
 
 } elsif $::role == 'jenkinsclient' {
   # install a jenkins slave configured to launch jobs using heat
@@ -26,6 +33,10 @@ if $::role == 'jenkinsserver' {
     heat_endpoint         => hiera('openstack_heat_endpoint', 'ord.orchestration.api.rackspacecloud.com'),
     keystone_endpoint     => hiera('openstack_keystone_endpoint', 'identity.api.rackspacecloud.com'),
     openstack_private_key => hiera('openstack_private_key')
+  }
+} elsif $::role == 'reposerver' {
+  class { 'jio_pipeline::repo_server':
+    repo_server => 'jiocloud.rustedhalo.com',
   }
 } else {
   fail("Undefined role: ${::role}")
