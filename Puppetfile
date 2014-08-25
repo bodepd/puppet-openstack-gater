@@ -4,6 +4,9 @@
 mod 'bodepd/openstack_tester',
   :git => 'https://github.com/bodepd/puppet-openstack_tester'
 
+mod 'jiocloud/jiocloud_pipeline',
+  git => 'https://github.com/JioCloud/puppet-jio_pipeline.git'
+
 mod 'bodepd/ci_profiles',
   :git => 'https://github.com/bodepd/puppet-ci_profiles'
 
