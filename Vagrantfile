@@ -7,14 +7,17 @@ Vagrant.configure("2") do |config|
   {
     :puppetmaster  => '10',
     :jenkinsserver => '11',
-    :jenkinsclient => '12'
+    :jenkinsclient => '12',
+    :reposerver    => '13',
   }.each do |node_name, number|
 
     config.vm.synced_folder("hiera/", '/etc/puppet/hiera/')
 
     # run apt-get update and install pip
+    unless ENV['NO_APT_GET_UPDATE'] == 'true'
     config.vm.provision 'shell', inline:
       'apt-get update; PIP_GET_PIP_URL=https://bootstrap.pypa.io/get-pip.py;curl -O $PIP_GET_PIP_URL || wget $PIP_GET_PIP_URL;python get-pip.py'
+    end
 
     config.vm.define(node_name) do |config|
       config.vm.network "private_network", :ip => "11.2.3.#{number}"
@@ -23,7 +26,7 @@ Vagrant.configure("2") do |config|
         puppet.manifests_path    = 'manifests'
         puppet.manifest_file     = 'site.pp'
         puppet.module_path       = 'modules'
-        puppet.options           = ['--hiera_config=/etc/puppet/hiera/hiera.yaml', '--debug']
+        puppet.options           = ['--hiera_config=/etc/puppet/hiera/hiera.yaml']
         puppet.facter            = { 'role' => node_name }
       end
     end
