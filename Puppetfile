@@ -1,11 +1,19 @@
 #
 # this a namespace bug that needs to be fixed
 #
+mod 'solarkennedy/etcd',
+  :git => 'https://github.com/solarkennedy/puppet-etcd',
+  :ref => 'origin/master'
+
+mod 'stephenjohrnson/puppet',
+  :git => 'https://github.com/stephenrjohnson/puppetmodule',
+  :ref => '0.0.18'
+
 mod 'bodepd/openstack_tester',
   :git => 'https://github.com/bodepd/puppet-openstack_tester'
 
-mod 'jiocloud/jiocloud_pipeline',
-  git => 'https://github.com/JioCloud/puppet-jio_pipeline.git'
+mod 'jiocloud/jio_pipeline',
+  :git => 'https://github.com/JioCloud/puppet-jio_pipeline.git'
 
 mod 'bodepd/ci_profiles',
   :git => 'https://github.com/bodepd/puppet-ci_profiles'
