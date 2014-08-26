@@ -104,3 +104,42 @@ go into the jenkins config section, find the gearman section, and click on enabl
 
 TBH, I'm not even mucking with auth atm. Jenkins is so lame ;(
 
+
+## Installing etcd
+
+In order to build out etd, you need to build the package yourself:
+
+### creating the package
+
+On an Ubuntu system, do the following:
+
+````
+apt-get install ruby-dev gcc make
+gem install fpm
+git clone https://github.com/solarkennedy/etcd-packages
+cd etcd-packages
+make deb
+````
+
+Copy the resulting deb into the local packages directory for vagrant testing (or move it to
+some available local directory)
+
+### setting up the local repo
+
+For my simple vagrant tests, I will just setup a local package repo
+in ./packages
+
+````
+mkdir packages
+cp etcd-packages/etcd_0.4.3_amd64.deb packages
+cd packages
+dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+````
+
+### setting up local repo access
+
+Now, on machines that want to use this package, add the following to: /etc/apt/sources.list.d/etcd.list
+
+````
+deb file:/vagrant/packages ./
+````

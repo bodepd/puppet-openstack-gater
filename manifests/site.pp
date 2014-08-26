@@ -1,8 +1,10 @@
 
 
-$jenkins_server = 'http://11.2.3.11:8080'
+$jenkins_server = 'http://10.22.3.11:8080'
 
-if $::role == 'jenkinsserver' {
+if $::role == 'etcd' {
+  include etcd
+} elsif $::role == 'jenkinsserver' {
 
   include openstack_tester::puppet_jobs
 
