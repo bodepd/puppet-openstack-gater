@@ -27,13 +27,13 @@ Vagrant.configure("2") do |config|
         if ENV['https_proxy']
         config.vm.provision :shell, :inline => "echo 'export https_proxy=#{ENV['https_proxy']}' >> /etc/profile.d/proxy.sh"
         end
-        config.vm.provision 'shell', inline:
+        config.vm.provision 'shell', :inline =>
         "echo \"Acquire::http { Proxy \\\"#{ENV['http_proxy']}\\\" }\" > /etc/apt/apt.conf.d/03proxy"
       end
 
       # run apt-get update and install pip
       unless ENV['NO_APT_GET_UPDATE'] == 'true'
-        config.vm.provision 'shell', inline:
+        config.vm.provision 'shell', :inline =>
         'apt-get update; apt-get install -y git curl;PIP_GET_PIP_URL=https://bootstrap.pypa.io/get-pip.py;curl -O $PIP_GET_PIP_URL || wget $PIP_GET_PIP_URL;python get-pip.py'
       end
 
